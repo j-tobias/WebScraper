@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup as bs
 from tqdm import tqdm
 import json
 import codecs
+import requests
 
 
 
@@ -36,13 +37,9 @@ class Scraper:
         """        
     
         try:
-            #html = urllib.request.urlopen(url)
-            #html = html.read()
-            #html = html.decode(self.encoding)
-            #html.close()
-            http_pool = urllib3.connection_from_url(url)
-            r = http_pool.urlopen('GET',url, timeout=5)
-            html = codecs.decode(r.data,self.encoding,'ignore')
+            html_ = requests.get(url)
+            html = html_.content
+            html_.close()
 
             soup = bs(html, 'html.parser')
             urls = []
